@@ -1,0 +1,4 @@
+../Core/Src/mpu6050.c:32:9:mpu6050_init	40	static
+../Core/Src/mpu6050.c:96:9:mpu6050_read_accel_dma	24	static
+../Core/Src/mpu6050.c:104:6:mpu6050_read_accel_dma_complete	16	static
+../Core/Src/mpu6050.c:115:6:mpu6050_process_after_filter	16	static
