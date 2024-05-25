@@ -54,6 +54,7 @@ TIM_HandleTypeDef htim4;
 /* USER CODE BEGIN PV */
 LPFilter_t lpf_acc;
 FIRFilter_t firAcc;
+FIRFilter_t mvAvg;
 MPU6050_t accelerometer;
 //FIRFilter_t fir_filt;
 //FIRFilter_t mv_avg;
@@ -79,7 +80,7 @@ static void MX_TIM4_Init(void);
 //	HAL_I2C_ER_IRQHandler(&hi2c1);
 //}
 
-char buffer[60];
+char buffer[128];
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
 		if (GPIO_Pin == INT_MPU_Pin) {
@@ -92,9 +93,10 @@ void HAL_I2C_MemRxCpltCallback(I2C_HandleTypeDef *hi2c)
 {
     if (hi2c->Instance == I2C1) {
     	mpu6050_read_accel_dma_complete(&hi2c1, &accelerometer);
-    	accelerometer.Accel_X_RAW = lp_filter_update(&lpf_acc, accelerometer.Accel_X_RAW);
-    	mpu6050_process_after_filter(&hi2c1, &accelerometer); // conversion to g's
-    	sprintf(buffer, "%.4f\r\n", accelerometer.Ax);
+//    	mpu6050_process_after_filter(&hi2c1, &accelerometer); // conversion to g's
+    	lp_filter_update(&lpf_acc, (float)accelerometer.Accel_X_RAW);
+//    	fir_filter_update(&mvAvg, accelerometer.Accel_X_RAW);
+    	sprintf(buffer, "%u,%.4f\r", accelerometer.Accel_X_RAW, lpf_acc.out[0]);
     }
 }
 
@@ -169,10 +171,6 @@ int main(void)
 //	  sprintf(buffer, "check result is: %u\r\n", MPU6050_Init(&hi2c1, &accelerometer));
 //	  CDC_Transmit_FS((uint8_t *)buffer, strlen(buffer));
 
-//	  if (HAL_GetTick() - usb_start_time) {
-//	  CDC_Transmit_FS((uint8_t *)buf, strlen(buf));
-//	  usb_start_time = HAL_GetTick();
-//	  }
 
 
 

@@ -15,9 +15,9 @@ typedef struct
 {
 
     uint8_t Rec_Data[6];
-	float temprature_raw;
-    float Accel_X_RAW;
-    float Accel_Y_RAW;
+	uint16_t temprature_raw;
+	uint16_t Accel_X_RAW;
+	uint16_t Accel_Y_RAW;
     float Accel_Z_RAW;
     double Ax;
     double Ay;

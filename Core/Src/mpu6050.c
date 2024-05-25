@@ -51,15 +51,15 @@ uint8_t mpu6050_init(I2C_HandleTypeDef *I2Cx, MPU6050_t* imu) {
 
 	         // wake up sensor
 
-	         // Set DATA RATE of 100Hz by writing SMPLRT_DIV register
+	         // Set sample RATE of 100Hz by writing SMPLRT_DIV register (not data output rate (1kz for acc)
 	         Data = 79;
 	         HAL_I2C_Mem_Write(I2Cx, MPU6050_ADDR, SMPLRT_DIV_REG, 1, &Data, 1, i2c_timeout);
 	         HAL_Delay(50);
 
 	         //dlpf
-//	         Data = 2;
-//	         HAL_I2C_Mem_Write(I2Cx, MPU6050_ADDR, MPU6050_CONFIG, 1, &Data, 1, i2c_timeout);
-//	         HAL_Delay(50);
+	         Data = 0;
+	         HAL_I2C_Mem_Write(I2Cx, MPU6050_ADDR, MPU6050_CONFIG, 1, &Data, 1, i2c_timeout);
+	         HAL_Delay(50);
 
 	         // Set accelerometer configuration in ACCEL_CONFIG Register
 	         // XA_ST=0,YA_ST=0,ZA_ST=0, FS_SEL=0 -> � 2g

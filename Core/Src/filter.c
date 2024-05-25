@@ -30,7 +30,8 @@ float lp_filter_update(LPFilter_t *filt, float inp) {
 
 // fir
 
-float fir_filter_response[]= {-0.0032906f,-0.0052635f,-0.0068811f,0.0000000f,0.0254209f,0.0724719f,0.1311260f,0.1805961f,0.2000000f,0.1805961f,0.1311260f,0.0724719f,0.0254209f,0.0000000f,-0.0068811f,-0.0052635f};
+//float fir_inpulse_response[]= {-0.0032906f,-0.0052635f,-0.0068811f,0.0000000f,0.0254209f,0.0724719f,0.1311260f,0.1805961f,0.2000000f,0.1805961f,0.1311260f,0.0724719f,0.0254209f,0.0000000f,-0.0068811f,-0.0052635f};
+float fir_inpulse_response[]= {0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1};
 
 void fir_filter_init(FIRFilter_t *filt) {
 	// clear filter buffer
@@ -67,7 +68,7 @@ float fir_filter_update(FIRFilter_t *filt, float inp) {
 		}
 
 		// multiply impulse response with the shifted input sample and add to output
-		filt->out += fir_filter_response[n] * filt->buf[sum_index];
+		filt->out += fir_inpulse_response[n] * filt->buf[sum_index];
 
 
 	}
